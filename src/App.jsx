@@ -7,6 +7,7 @@ import Auth from './pages/auth.jsx';
 import Dashboard from './pages/dashboard.jsx';
 import Link from './pages/link.jsx';
 import { RouterProvider } from 'react-router-dom';
+import RequireAuth from './components/require-auth.jsx';
 const router = createBrowserRouter([
   {
     element:<AppLayout/>,
@@ -22,11 +23,15 @@ const router = createBrowserRouter([
       },
       {
         path:'/dashboard',
-        element:<Dashboard/>
+        element:<RequireAuth>
+        <Dashboard/>
+        </RequireAuth>
       },
       {
         path:'/link/:id',
-        element:<Link/>
+        element:<RequireAuth>
+        <Link/>
+        </RequireAuth>
       },
       {
         path:'/:id',
@@ -38,6 +43,7 @@ const router = createBrowserRouter([
 ]);
 function App() {
   return <RouterProvider router={router}>
+    
 
   </RouterProvider>
 }

@@ -1,4 +1,5 @@
-/* eslint-disable react/prop-types */
+/* to fetch current user */
+
 
 import {createContext, useContext, useEffect} from "react";
 import {getCurrentUser} from "./db/apiAuth";
@@ -13,7 +14,7 @@ const UrlProvider = ({children}) => {
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [fetchUser]);
 
   return (
     <UrlContext.Provider value={{user, fetchUser, loading, isAuthenticated}}>
