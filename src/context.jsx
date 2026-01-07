@@ -1,30 +1,39 @@
-/* to fetch current user */
-
-
-import {createContext, useContext, useEffect} from "react";
-import {getCurrentUser} from "./db/apiAuth";
-import useFetch from "./hooks/use-fetch";
+import {createContext, useContext, useEffect, useState} from "react";
+import supabase from "@/db/supabase";
 
 const UrlContext = createContext();
 
 const UrlProvider = ({children}) => {
-  const {data: user, loading, fn: fetchUser} = useFetch(getCurrentUser);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const isAuthenticated = user?.role === "authenticated";
+  const fetchUser = async () => {
+    setLoading(true);
+    const {
+      data: {user},
+    } = await supabase.auth.getUser();
+    setUser(user);
+    setLoading(false);
+  };
 
   useEffect(() => {
     fetchUser();
-  }, [fetchUser]);
+
+    const {
+      data: {subscription},
+    } = supabase.auth.onAuthStateChange(() => {
+      fetchUser();
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
-    <UrlContext.Provider value={{user, fetchUser, loading, isAuthenticated}}>
+    <UrlContext.Provider value={{user, loading, fetchUser}}>
       {children}
     </UrlContext.Provider>
   );
 };
 
-export const UrlState = () => {
-  return useContext(UrlContext);
-};
-
+export const UrlState = () => useContext(UrlContext);
 export default UrlProvider;
