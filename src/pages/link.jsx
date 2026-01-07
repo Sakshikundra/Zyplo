@@ -10,6 +10,7 @@ import {Copy, Download, LinkIcon, Trash} from "lucide-react";
 import {useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {BarLoader, BeatLoader} from "react-spinners";
+import { QRCodeCanvas } from "qrcode.react";
 
 const LinkPage = () => {
   const downloadImage = () => {
@@ -76,11 +77,11 @@ const LinkPage = () => {
             {url?.title}
           </span>
           <a
-            href={`https://trimrr.in/${link}`}
+            href={`https://zyplo.in/${link}`}
             target="_blank"
             className="text-3xl sm:text-4xl text-blue-400 font-bold hover:underline cursor-pointer"
           >
-            https://trimrr.in/{link}
+            https://zyplo.in/{link}
           </a>
           <a
             href={url?.original_url}
@@ -97,7 +98,7 @@ const LinkPage = () => {
             <Button
               variant="ghost"
               onClick={() =>
-                navigator.clipboard.writeText(`https://trimrr.in/${link}`)
+                navigator.clipboard.writeText(`https://zyplo.in/${link}`)
               }
             >
               <Copy />
@@ -121,11 +122,16 @@ const LinkPage = () => {
               )}
             </Button>
           </div>
-          <img
-            src={url?.qr}
-            className="w-full self-center sm:self-start ring ring-blue-500 p-1 object-contain"
-            alt="qr code"
-          />
+          <div className="w-full self-center sm:self-start ring ring-blue-500 p-1 flex items-center justify-center">
+            {link && (
+              <QRCodeCanvas
+                value={`https://zyplo.in/${link}`}
+                size={200}
+                bgColor="#ffffff"
+                fgColor="#000000"
+              />
+            )}
+          </div>
         </div>
 
         <Card className="sm:w-3/5">

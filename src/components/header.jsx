@@ -14,7 +14,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {BarLoader} from "react-spinners";
 import {Button} from "./ui/button";
 import {UrlState} from "@/context";
-
+import logo from "../assets/logo.png";
 const Header = () => {
   const {loading, fn: fnLogout} = useFetch(logout);
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const Header = () => {
     <>
       <nav className="py-4 flex justify-between items-center">
         <Link to="/">
-          <img src="/logo.png" className="h-16" alt="Trimrr Logo" />
+          <img src={logo} className="h-24" alt="Zyplo Logo" />
         </Link>
         <div className="flex gap-4">
           {!user ? (

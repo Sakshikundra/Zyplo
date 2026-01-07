@@ -25,8 +25,10 @@ const Dashboard = () => {
   } = useFetch(getClicksForUrls);
 
   useEffect(() => {
-    fnUrls();
-  }, []);
+    if (user?.id) {
+      fnUrls();
+    }
+  }, [user?.id]);
 
   useEffect(() => {
     if (urls?.length) {
@@ -40,7 +42,7 @@ const Dashboard = () => {
 
   return (
     <div className="flex flex-col gap-8">
-      {(loading || loadingClicks) && (
+      {(loading || (loadingClicks && urls?.length>0)) && (
         <BarLoader width={"100%"} color="#36d7b7" />
       )}
       <div className="grid grid-cols-2 gap-4">
